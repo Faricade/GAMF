@@ -1,0 +1,23 @@
+<Project Sdk="Microsoft.NET.Sdk">
+	<PropertyGroup>
+		<OutputType>Exe</OutputType>
+		<TargetFramework>net10.0</TargetFramework>
+		<LangVersion>latest</LangVersion>
+		<ImplicitUsings>enable</ImplicitUsings>
+		<Nullable>enable</Nullable>
+		<RootNamespace>GAMF</RootNamespace>
+		<AssemblyName>GAMF</AssemblyName>
+		<InvariantGlobalization>true</InvariantGlobalization>
+	</PropertyGroup>
+	<ItemGroup>
+		<!-- Points at the plain `git clone` of FosterFramework/Foster sitting next to this
+		     project (NOT a submodule). Run `git pull` inside Foster/ whenever you want to
+		     update, then rebuild. -->
+		<ProjectReference Include="..\Foster\Framework\Foster.Framework.csproj" />
+	</ItemGroup>
+	<ItemGroup>
+		<Content Include="Assets\**">
+			<CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+		</Content>
+	</ItemGroup>
+</Project>
