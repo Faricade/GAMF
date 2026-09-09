@@ -5,6 +5,7 @@ namespace GAMF;
 internal sealed class Game : App
 {
     public static readonly Game Instance = new();
+    public static readonly ContentStorage storage = FileSystem.OpenTitleStorage();
 
 	private readonly Batcher batch;
 
