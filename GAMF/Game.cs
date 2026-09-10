@@ -6,9 +6,9 @@ namespace GAMF;
 internal sealed class Game : App
 {
     public static readonly Game Instance = new();
-    public static Texture PlayerTexture { get; private set; } = null!;
 
     private readonly Batcher batch;
+    private readonly List<Actor> Actors = [];
 
     public Game() : base(new()
     {
@@ -23,25 +23,23 @@ internal sealed class Game : App
 
     protected override void Startup()
     {
-        FileSystem.OpenTitleStorage((cs) =>
-        {
-            byte[] pngBytes = cs.ReadAllBytes("Assets/player.png");
-
-            PlayerTexture = new Texture(GraphicsDevice, new(pngBytes));
-        });
+        Actors.Add(new Paddle());
+        foreach (var actor in Actors)
+            actor.Init();
     }
 
     protected override void Update()
     {
-        // Game logic / input handling goes here. Access input via app.Input,
-        // e.g. app.Input.Keyboard.Down(Keys.Left).
+        foreach (var actor in Actors)
+            actor.Update();
     }
 
     protected override void Render()
     {
         Window.Clear(Color.Black);
 
-        batch.Image(PlayerTexture, new Vector2(200, 50), Color.White);
+        foreach (var actor in Actors)
+            actor.Render(batch);
 
         batch.Render(Window);
         batch.Clear();
@@ -49,6 +47,7 @@ internal sealed class Game : App
 
     protected override void Shutdown()
     {
-        // Cleanup, if needed.
+        foreach (var actor in Actors)
+            actor.Delete();
     }
 }
