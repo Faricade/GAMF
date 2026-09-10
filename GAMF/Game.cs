@@ -8,7 +8,8 @@ internal sealed class Game : App
     public static readonly Game Instance = new();
 
     private readonly Batcher batch;
-    private readonly List<Actor> Actors = [];
+    private readonly List<Actor> _actors = [];
+    public IReadOnlyList<Actor> Actors => _actors;
 
     public Game() : base(new()
     {
@@ -23,7 +24,23 @@ internal sealed class Game : App
 
     protected override void Startup()
     {
-        Actors.Add(new Paddle());
+        _actors.Add(new Paddle());
+        _actors.Add(new Ball());
+        _actors.Add(new Border() // up
+        {
+            Rectangle = new(0, -10, 1280, 10),
+            Mask = Mask.Wall,
+        });
+        _actors.Add(new Border() // left
+        {
+            Rectangle = new(-10, 0, 10, 720),
+            Mask = Mask.Wall,
+        });
+        _actors.Add(new Border() // right
+        {
+            Rectangle = new(1290, 0, 10, 720),
+            Mask = Mask.Wall,
+        });
         foreach (var actor in Actors)
             actor.Init();
     }
