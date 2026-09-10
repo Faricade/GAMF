@@ -1,28 +1,34 @@
 using Foster.Framework;
+using System.Numerics;
 
 namespace GAMF;
 
 internal sealed class Game : App
 {
     public static readonly Game Instance = new();
-    public static readonly ContentStorage storage = FileSystem.OpenTitleStorage();
+    public static Texture PlayerTexture { get; private set; } = null!;
 
-	private readonly Batcher batch;
+    private readonly Batcher batch;
 
-	public Game() : base(new()
-	{
-		ApplicationName = "GAMF",
-		WindowTitle = "GAMF",
-		Width = 1280,
-		Height = 720,
-	})
-	{
-		batch = new Batcher(GraphicsDevice);
-	}
+    public Game() : base(new()
+    {
+        ApplicationName = "GAMF",
+        WindowTitle = "GAMF",
+        Width = 1280,
+        Height = 720,
+    })
+    {
+        batch = new Batcher(GraphicsDevice);
+    }
 
     protected override void Startup()
     {
-        // Load content, initialize game state, etc.
+        FileSystem.OpenTitleStorage((cs) =>
+        {
+            byte[] pngBytes = cs.ReadAllBytes("Assets/player.png");
+
+            PlayerTexture = new Texture(GraphicsDevice, new(pngBytes));
+        });
     }
 
     protected override void Update()
@@ -35,7 +41,7 @@ internal sealed class Game : App
     {
         Window.Clear(Color.Black);
 
-        // Draw calls go here, e.g. batch.Rect(...), batch.Image(...).
+        batch.Image(PlayerTexture, new Vector2(200, 50), Color.White);
 
         batch.Render(Window);
         batch.Clear();

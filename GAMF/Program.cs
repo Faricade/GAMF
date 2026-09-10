@@ -1,1 +1,1 @@
-ProjectTB.Game.Instance.Run();
+GAMF.Game.Instance.Run();
