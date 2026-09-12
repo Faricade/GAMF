@@ -1,5 +1,4 @@
 ﻿using Foster.Framework;
-using System.Numerics;
 
 namespace GAMF;
 
@@ -10,7 +9,6 @@ public class Paddle : Actor
     
     public override void Init()
     {
-        Mask = Mask.Paddle;
         Rectangle.Position = new((1280 - Rectangle.Width) / 2, 650);
     }
 

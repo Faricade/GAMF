@@ -1,24 +1,6 @@
-﻿using Foster.Framework;
+﻿namespace GAMF;
 
-namespace GAMF;
-
-public abstract class Actor
-{
-    public Mask Mask = Mask.None;
-
-
-    public abstract void Init();
-    public abstract void Update();
-    public abstract void Render(Batcher batcher);
-    public abstract void Delete();
-}
-
-public enum Mask
-{
-    None,
-    Ball,
-    Paddle,
-    Brick,
-    Wall,
-    Floor,
-}
+/// <summary>
+/// Actor is anything that is not a solid.
+/// </summary>
+public abstract class Actor : Entity { /* most useful class ever btw */ }

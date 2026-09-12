@@ -9,27 +9,20 @@ public class Ball : Actor
     public float Direction = Calc.Up;
     public float Speed = 300;
     public Circle Circle;
-    public bool L = false;
-    public SpriteFont font = null!;
 
     public override void Init()
     {
-        Mask = Mask.Ball;
         Circle = new(new(1280 / 2, 630), 10f);
-        font = new SpriteFont(Game.Instance.GraphicsDevice, Path.Join("Assets", "monogram.ttf"), 32);
     }
 
     public override void Update()
     {
-        if (L)
-            return;
-
         Circle.Position += Calc.AngleToVector(Direction) * Speed * Game.Instance.Time.Delta;
-        foreach (Actor solidWall in Game.Instance.Actors)
+        foreach (Entity solidWall in Game.Instance.Entites)
         {
-            if (solidWall is Border border)
+            if (solidWall is Wall wall)
             {
-                if (Circle.Overlaps(border.Rectangle, out Vector2 pushout))
+                if (Circle.Overlaps(wall.Hitbox, out Vector2 pushout))
                 {
                     Vector2 normal = pushout.Normalized();
                     Vector2 incoming = Calc.AngleToVector(Direction);
@@ -51,18 +44,16 @@ public class Ball : Actor
             }
         }
         if (Circle.Position.Y > 720)
-            L = true;
+            Delete();
     }
 
     public override void Render(Batcher batcher)
     {
         batcher.Circle(new Circle(Circle.Position, Circle.Radius), 8, Color.White);
-        if (L)
-            batcher.Text(font, "L", new Vector2(600, 300), 256, Color.BlueViolet);
     }
 
     public override void Delete()
     {
-
+        Game.Instance.RemoveEntity(this);
     }
 }
