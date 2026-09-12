@@ -62,6 +62,8 @@ internal sealed class Game : App
         foreach (var entity in Pending.Where(x => !x.add))
             _entites.Remove(entity.entity);
 
+        Pending.Clear();
+
         if (!_entites.Any(x => x is Ball))
             State = GameState.Lose;
     }
