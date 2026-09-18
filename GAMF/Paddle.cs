@@ -6,7 +6,7 @@ public class Paddle : Actor
 {
     public float Speed = 280;
     public Rect Rectangle = new(100, 20);
-    
+
     public override void Init()
     {
         Rectangle.Position = new((1280 - Rectangle.Width) / 2, 650);

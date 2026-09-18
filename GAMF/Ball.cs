@@ -1,5 +1,5 @@
-﻿using Foster.Framework;
-using System.Numerics;
+﻿using System.Numerics;
+using Foster.Framework;
 
 namespace GAMF;
 
@@ -26,8 +26,8 @@ public class Ball : Actor
                 {
                     Vector2 normal = pushout.Normalized();
                     Vector2 incoming = Calc.AngleToVector(Direction);
-                    Vector2 reflected = incoming - 2 * Vector2.Dot(incoming, normal) * normal;
-                    
+                    Vector2 reflected = incoming - (2 * Vector2.Dot(incoming, normal) * normal);
+
                     Direction = Calc.Angle(reflected);
                     Circle.Position += pushout;
                 }
@@ -38,7 +38,7 @@ public class Ball : Actor
                 {
                     Vector2 normal = pushout.Normalized();
                     Vector2 incoming = Calc.AngleToVector(Direction);
-                    Vector2 reflected = incoming - 2 * Vector2.Dot(incoming, normal) * normal;
+                    Vector2 reflected = incoming - (2 * Vector2.Dot(incoming, normal) * normal);
 
                     Direction = Calc.Angle(reflected);
                     Circle.Position += pushout;

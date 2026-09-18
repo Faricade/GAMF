@@ -1,5 +1,5 @@
-using Foster.Framework;
 using System.Numerics;
+using Foster.Framework;
 
 namespace GAMF;
 
@@ -45,35 +45,36 @@ internal sealed class Game : App
         });
 
         int width = 50, height = 30;
-        for(int x=10; x<1280-width; x += width)
+        for (int x = 10; x < 1280 - width; x += width)
         {
             for (int y = 15; y < 350 - height; y += height)
             {
                 _entites.Add(new Brick()
                 {
                     Hitbox = new(x, y, width, height),
+                    Color = new(1, 0.5f, Calc.Map(y, 15, 350-height, 0, 1), 255),
                 });
                 y += 2;
             }
             x += 2;
         }
 
-        foreach (var entity in Entites)
+        foreach (Entity entity in Entites)
             entity.Init();
     }
 
     protected override void Update()
     {
-        foreach (var entity in Pending.Where(x => x.add))
+        foreach ((bool add, Entity entity) entity in Pending.Where(x => x.add))
             _entites.Add(entity.entity);
 
-        foreach (var entity in Entites)
+        foreach (Entity entity in Entites)
         {
-            if(State is GameState.Start or GameState.Progress)
+            if (State is GameState.Start or GameState.Progress)
                 entity.Update();
         }
 
-        foreach (var entity in Pending.Where(x => !x.add))
+        foreach ((bool add, Entity entity) entity in Pending.Where(x => !x.add))
             _entites.Remove(entity.entity);
 
         Pending.Clear();
@@ -88,7 +89,7 @@ internal sealed class Game : App
     {
         Window.Clear(Color.Black);
 
-        foreach (var entity in Entites) 
+        foreach (Entity entity in Entites)
             entity.Render(batcher);
 
         if (State is GameState.Lose)
@@ -102,7 +103,7 @@ internal sealed class Game : App
 
     protected override void Shutdown()
     {
-        foreach (var actor in Entites)
+        foreach (Entity actor in Entites)
             actor.Delete();
     }
 
