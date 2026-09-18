@@ -32,6 +32,20 @@ public class Ball : Actor
                     Circle.Position += pushout;
                 }
             }
+            if (solidWall is Brick brick)
+            {
+                if (Circle.Overlaps(brick.Hitbox, out Vector2 pushout))
+                {
+                    Vector2 normal = pushout.Normalized();
+                    Vector2 incoming = Calc.AngleToVector(Direction);
+                    Vector2 reflected = incoming - 2 * Vector2.Dot(incoming, normal) * normal;
+
+                    Direction = Calc.Angle(reflected);
+                    Circle.Position += pushout;
+
+                    Game.Instance.RemoveEntity(solidWall);
+                }
+            }
             if (solidWall is Paddle paddle)
             {
                 if (Circle.Overlaps(paddle.Rectangle, out Vector2 pushout))

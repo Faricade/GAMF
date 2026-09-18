@@ -4,7 +4,7 @@ namespace GAMF;
 
 public class Paddle : Actor
 {
-    public float Speed = 200;
+    public float Speed = 280;
     public Rect Rectangle = new(100, 20);
     
     public override void Init()

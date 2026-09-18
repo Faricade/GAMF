@@ -44,6 +44,20 @@ internal sealed class Game : App
             Hitbox = new(1290, 0, 10, 720),
         });
 
+        int width = 50, height = 30;
+        for(int x=10; x<1280-width; x += width)
+        {
+            for (int y = 15; y < 350 - height; y += height)
+            {
+                _entites.Add(new Brick()
+                {
+                    Hitbox = new(x, y, width, height),
+                });
+                y += 2;
+            }
+            x += 2;
+        }
+
         foreach (var entity in Entites)
             entity.Init();
     }
@@ -66,6 +80,8 @@ internal sealed class Game : App
 
         if (!_entites.Any(x => x is Ball))
             State = GameState.Lose;
+        if (!_entites.Any(x => x is Brick))
+            State = GameState.Win;
     }
 
     protected override void Render()
@@ -75,8 +91,10 @@ internal sealed class Game : App
         foreach (var entity in Entites) 
             entity.Render(batcher);
 
-        if (State == GameState.Lose)
+        if (State is GameState.Lose)
             batcher.Text(font, "L", new Vector2(600, 200), 256, Color.BlueViolet);
+        else if (State is GameState.Win)
+            batcher.Text(font, "W", new Vector2(600, 200), 256, Color.OrangeRed);
 
         batcher.Render(Window);
         batcher.Clear();
