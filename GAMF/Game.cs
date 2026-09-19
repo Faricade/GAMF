@@ -1,18 +1,14 @@
-using System.Numerics;
 using Foster.Framework;
+using GAMF.S;
 
 namespace GAMF;
 
 internal sealed class Game : App
 {
-    public static readonly Game Instance = new();
+    private Scene currentScene = null!;
+    private Scene? pendingNewScene = null;
 
     private readonly Batcher batcher;
-    private readonly List<Entity> _entites = [];
-    private readonly List<(bool add, Entity entity)> Pending = [];
-    public IReadOnlyList<Entity> Entites => _entites;
-    public GameState State { get; set; } = GameState.Start;
-    public SpriteFont font = null!;
 
     public Game() : base(new()
     {
@@ -27,101 +23,38 @@ internal sealed class Game : App
 
     protected override void Startup()
     {
-        font = new SpriteFont(GraphicsDevice, Path.Join("Assets", "monogram.ttf"), 32);
-
-        _entites.Add(new Paddle());
-        _entites.Add(new Ball());
-        _entites.Add(new Wall() // up
-        {
-            Hitbox = new(0, -10, 1280, 10),
-        });
-        _entites.Add(new Wall() // left
-        {
-            Hitbox = new(-10, 0, 10, 720),
-        });
-        _entites.Add(new Wall() // right
-        {
-            Hitbox = new(1290, 0, 10, 720),
-        });
-
-        int width = 50, height = 30;
-        for (int x = 10; x < 1280 - width; x += width)
-        {
-            for (int y = 15; y < 350 - height; y += height)
-            {
-                _entites.Add(new Brick()
-                {
-                    Hitbox = new(x, y, width, height),
-                    Color = new(1, 0.5f, Calc.Map(y, 15, 350-height, 0, 1), 255),
-                });
-                y += 2;
-            }
-            x += 2;
-        }
-
-        foreach (Entity entity in Entites)
-            entity.Init();
+        ChangeScene(new GameScene(new SpriteFont(GraphicsDevice, Path.Join("Assets", "monogram.ttf"), 32)));
     }
 
     protected override void Update()
     {
-        foreach ((bool add, Entity entity) entity in Pending.Where(x => x.add))
-            _entites.Add(entity.entity);
-
-        foreach (Entity entity in Entites)
+        if (pendingNewScene is not null)
         {
-            if (State is GameState.Start or GameState.Progress)
-                entity.Update();
+            currentScene?.Dispose();
+            currentScene = pendingNewScene;
+            currentScene.Input = Input;
+            currentScene.Init();
+            pendingNewScene = null;
         }
-
-        foreach ((bool add, Entity entity) entity in Pending.Where(x => !x.add))
-            _entites.Remove(entity.entity);
-
-        Pending.Clear();
-
-        if (!_entites.Any(x => x is Ball))
-            State = GameState.Lose;
-        if (!_entites.Any(x => x is Brick))
-            State = GameState.Win;
+        currentScene.Update(Time);
     }
 
     protected override void Render()
     {
         Window.Clear(Color.Black);
-
-        foreach (Entity entity in Entites)
-            entity.Render(batcher);
-
-        if (State is GameState.Lose)
-            batcher.Text(font, "L", new Vector2(600, 200), 256, Color.BlueViolet);
-        else if (State is GameState.Win)
-            batcher.Text(font, "W", new Vector2(600, 200), 256, Color.OrangeRed);
-
+        currentScene.Render(batcher);
         batcher.Render(Window);
         batcher.Clear();
     }
 
     protected override void Shutdown()
     {
-        foreach (Entity actor in Entites)
-            actor.Delete();
+        currentScene.Dispose();
+        pendingNewScene?.Dispose();
     }
 
-    public void AddEntity(Entity entity)
+    public void ChangeScene(Scene newScene)
     {
-        Pending.Add((true, entity));
-    }
-
-    public void RemoveEntity(Entity entity)
-    {
-        Pending.Add((false, entity));
-    }
-
-    public enum GameState
-    {
-        Start,
-        Progress,
-        Win,
-        Lose
+        pendingNewScene = newScene;
     }
 }

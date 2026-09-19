@@ -1,4 +1,4 @@
-﻿namespace GAMF;
+﻿namespace GAMF.E;
 
 /// <summary>
 /// Solid is anything that is not a actor.

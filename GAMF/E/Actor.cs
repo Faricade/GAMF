@@ -1,4 +1,4 @@
-﻿namespace GAMF;
+﻿namespace GAMF.E;
 
 /// <summary>
 /// Actor is anything that is not a solid.

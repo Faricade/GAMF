@@ -1,1 +1,2 @@
-GAMF.Game.Instance.Run();
+using GAMF.Game game = new();
+game.Run();

@@ -1,4 +1,5 @@
 ﻿using Foster.Framework;
+using GAMF.E;
 
 namespace GAMF;
 
@@ -12,12 +13,12 @@ public class Paddle : Actor
         Rectangle.Position = new((1280 - Rectangle.Width) / 2, 650);
     }
 
-    public override void Update()
+    public override void Update(in Time time)
     {
-        if (Game.Instance.Input.Keyboard.Down(Keys.Left))
-            Rectangle.X -= Speed * Game.Instance.Time.Delta;
-        if (Game.Instance.Input.Keyboard.Down(Keys.Right))
-            Rectangle.X += Speed * Game.Instance.Time.Delta;
+        if (Owner.Input.Keyboard.Down(Keys.Left))
+            Rectangle.X -= Speed * time.Delta;
+        if (Owner.Input.Keyboard.Down(Keys.Right))
+            Rectangle.X += Speed * time.Delta;
 
         // hits left
         if (Rectangle.X <= 0)
@@ -32,7 +33,7 @@ public class Paddle : Actor
         batcher.RectRounded(Rectangle, 5f, Color.White);
     }
 
-    public override void Delete()
+    public override void Dispose()
     {
 
     }

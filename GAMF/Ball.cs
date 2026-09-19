@@ -1,5 +1,6 @@
 ﻿using System.Numerics;
 using Foster.Framework;
+using GAMF.E;
 
 namespace GAMF;
 
@@ -15,10 +16,10 @@ public class Ball : Actor
         Circle = new(new(1280 / 2, 630), 10f);
     }
 
-    public override void Update()
+    public override void Update(in Time time)
     {
-        Circle.Position += Calc.AngleToVector(Direction) * Speed * Game.Instance.Time.Delta;
-        foreach (Entity solidWall in Game.Instance.Entites)
+        Circle.Position += Calc.AngleToVector(Direction) * Speed * time.Delta;
+        foreach (Entity solidWall in Owner.EntityManager.Entities)
         {
             if (solidWall is Wall wall)
             {
@@ -43,7 +44,7 @@ public class Ball : Actor
                     Direction = Calc.Angle(reflected);
                     Circle.Position += pushout;
 
-                    Game.Instance.RemoveEntity(solidWall);
+                    Owner.EntityManager.RemoveEntity(solidWall);
                 }
             }
             if (solidWall is Paddle paddle)
@@ -58,7 +59,7 @@ public class Ball : Actor
             }
         }
         if (Circle.Position.Y > 720)
-            Delete();
+            Owner.EntityManager.RemoveEntity(this);
     }
 
     public override void Render(Batcher batcher)
@@ -66,8 +67,8 @@ public class Ball : Actor
         batcher.Circle(new Circle(Circle.Position, Circle.Radius), 8, Color.White);
     }
 
-    public override void Delete()
+    public override void Dispose()
     {
-        Game.Instance.RemoveEntity(this);
+
     }
 }
