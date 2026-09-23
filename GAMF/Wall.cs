@@ -1,9 +1,9 @@
 ﻿using Foster.Framework;
-using GAMF.E;
+using GAMF.Entities;
 
 namespace GAMF;
 
-public class Wall : Solid
+public class Wall : Entity
 {
     public override void Init() { }
     public override void Update(in Time time) { }

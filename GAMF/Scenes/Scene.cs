@@ -1,10 +1,11 @@
 ﻿using Foster.Framework;
+using GAMF.Entities;
 
-namespace GAMF.S;
+namespace GAMF.Scenes;
 
 internal abstract class Scene
 {
-    public readonly E.E EntityManager;
+    public readonly EntityManager EntityManager;
     public Input Input = null!;
 
     protected Scene()

@@ -1,5 +1,5 @@
 using Foster.Framework;
-using GAMF.S;
+using GAMF.Scenes;
 
 namespace GAMF;
 
@@ -23,7 +23,7 @@ internal sealed class Game : App
 
     protected override void Startup()
     {
-        ChangeScene(new GameScene(new SpriteFont(GraphicsDevice, Path.Join("Assets", "monogram.ttf"), 32)));
+        ChangeScene(new GameScene(new SpriteFont(GraphicsDevice, Path.Join("Assets", "monogram.ttf"), 32)) { Game = this });
     }
 
     protected override void Update()

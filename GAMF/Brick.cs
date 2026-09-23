@@ -1,9 +1,9 @@
 ﻿using Foster.Framework;
-using GAMF.E;
+using GAMF.Entities;
 
 namespace GAMF;
 
-internal class Brick : Actor
+internal class Brick : Entity
 {
     public Color Color { get; init; } = Color.White;
 

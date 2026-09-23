@@ -1,7 +1,7 @@
 ﻿using Foster.Framework;
-using GAMF.S;
+using GAMF.Scenes;
 
-namespace GAMF.E;
+namespace GAMF.Entities;
 
 public abstract class Entity
 {

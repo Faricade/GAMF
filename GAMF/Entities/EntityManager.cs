@@ -1,11 +1,11 @@
-﻿using GAMF.S;
+﻿using GAMF.Scenes;
 
-namespace GAMF.E;
+namespace GAMF.Entities;
 
 /// <summary>
 /// AKA EntityManager
 /// </summary>
-internal class E(Scene ownerScene)
+internal class EntityManager(Scene ownerScene)
 {
     private readonly List<Entity> _entites = [];
     private readonly HashSet<Entity> ToAdd = [];

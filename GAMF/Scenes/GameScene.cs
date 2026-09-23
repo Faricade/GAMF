@@ -1,12 +1,14 @@
 ﻿using System.Numerics;
 using Foster.Framework;
-using GAMF.E;
+using GAMF.Entities;
 
-namespace GAMF.S;
+namespace GAMF.Scenes;
 
 internal class GameScene(SpriteFont font) : Scene()
 {
-    private GameState State { get; set; } = GameState.Start;
+    public int Lives = 3;
+    public GameState State { get; set; } = GameState.Start;
+    public required Game Game;
 
     public override void Init()
     {
@@ -49,16 +51,26 @@ internal class GameScene(SpriteFont font) : Scene()
 
         foreach (Entity entity in EntityManager.Entities)
         {
-            if (State is GameState.Start or GameState.Progress)
-                entity.Update(time);
+             entity.Update(time);
         }
 
         EntityManager.ApplyRemovals();
 
         if (!EntityManager.Entities.Any(x => x is Ball))
-            State = GameState.Lose;
+        {
+            if(--Lives <= 0)
+                State = GameState.Lose;
+            else
+            {
+                EntityManager.AddEntity(new Ball());
+                State = GameState.Start;
+            }
+        }
         if (!EntityManager.Entities.Any(x => x is Brick))
             State = GameState.Win;
+
+        if (State == GameState.Lose && Input.Keyboard.Down(Keys.Up))
+            Game.ChangeScene(new GameScene(font) { Game = Game });
     }
 
     public override void Render(Batcher batcher)
@@ -74,11 +86,11 @@ internal class GameScene(SpriteFont font) : Scene()
 
     public override void Dispose()
     {
-        foreach (Entity actor in EntityManager.Entities)
-            actor.Dispose();
+        foreach (Entity Entity in EntityManager.Entities)
+            Entity.Dispose();
     }
 
-    private enum GameState
+    public enum GameState
     {
         Start,
         Progress,

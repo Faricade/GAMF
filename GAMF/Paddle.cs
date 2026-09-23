@@ -1,36 +1,35 @@
 ﻿using Foster.Framework;
-using GAMF.E;
+using GAMF.Entities;
 
 namespace GAMF;
 
-public class Paddle : Actor
+public class Paddle : Entity
 {
     public float Speed = 280;
-    public Rect Rectangle = new(100, 20);
 
     public override void Init()
     {
-        Rectangle.Position = new((1280 - Rectangle.Width) / 2, 650);
+        Hitbox = new((1280 - Hitbox.Width) / 2, 650, 100, 20);
     }
 
     public override void Update(in Time time)
     {
         if (Owner.Input.Keyboard.Down(Keys.Left))
-            Rectangle.X -= Speed * time.Delta;
+            Hitbox.X -= Speed * time.Delta;
         if (Owner.Input.Keyboard.Down(Keys.Right))
-            Rectangle.X += Speed * time.Delta;
+            Hitbox.X += Speed * time.Delta;
 
         // hits left
-        if (Rectangle.X <= 0)
-            Rectangle.X = 0;
+        if (Hitbox.X <= 0)
+            Hitbox.X = 0;
         // hits right
-        else if (Rectangle.Position.X >= 1280 - Rectangle.Width)
-            Rectangle.X = 1280 - Rectangle.Width;
+        else if (Hitbox.Position.X >= 1280 - Hitbox.Width)
+            Hitbox.X = 1280 - Hitbox.Width;
     }
 
     public override void Render(Batcher batcher)
     {
-        batcher.RectRounded(Rectangle, 5f, Color.White);
+        batcher.RectRounded(Hitbox, 5f, Color.White);
     }
 
     public override void Dispose()
