@@ -5,7 +5,7 @@ namespace GAMF.S;
 internal abstract class Scene
 {
     public readonly E.E EntityManager;
-    public Input Input;
+    public required Input Input;
 
     protected Scene()
     {

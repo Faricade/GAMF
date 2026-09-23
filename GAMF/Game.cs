@@ -23,7 +23,7 @@ internal sealed class Game : App
 
     protected override void Startup()
     {
-        ChangeScene(new GameScene(new SpriteFont(GraphicsDevice, Path.Join("Assets", "monogram.ttf"), 32)));
+        ChangeScene(new GameScene(new SpriteFont(GraphicsDevice, Path.Join("Assets", "monogram.ttf"), 32)) { Input = Input });
     }
 
     protected override void Update()
