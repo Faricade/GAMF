@@ -13,3 +13,8 @@ But if you really want to, you'll need:
 
 Just build and run  
 Controls: Left/Right arrow keys to move the paddle, Up to restart/launch the ball.
+
+## How it looks like
+
+(looks ugly as hell, amirite)  
+<img width="1290" height="761" alt="image" src="https://github.com/user-attachments/assets/ff0a601a-eb15-47a5-9b70-679aaa67fb2b" />
