@@ -5,6 +5,11 @@ The very first and worst of my game projects, written to learn game architecture
 Doesn't even use any kind of engine or game library, except for base framework.
 
 ## How to Run
+
+You can grab a built version in [Releases](https://github.com/Faricade/GAMF/releases).  
+I give no guarantee that it will run, though.
+
+## How to Build
 ### Don't.
   
 But if you really want to, you'll need: 
