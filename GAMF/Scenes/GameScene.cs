@@ -82,6 +82,11 @@ internal class GameScene(SpriteFont font) : Scene()
             batcher.Text(font, "L", new Vector2(600, 200), 256, Color.BlueViolet);
         else if (State is GameState.Win)
             batcher.Text(font, "W", new Vector2(600, 200), 256, Color.OrangeRed);
+
+        for(int i=1; i<=Lives; i++)
+        {
+            batcher.Circle(new Circle(25*i, 20, 8f), 8, Color.White);
+        }
     }
 
     public override void Dispose()
