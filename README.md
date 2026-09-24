@@ -9,6 +9,8 @@ Doesn't even use any kind of engine or game library, except for base framework.
 You can grab a built version in [Releases](https://github.com/Faricade/GAMF/releases).  
 I give no guarantee that it will run, though.
 
+Controls: Left/Right arrow keys to move the paddle, Up to restart/launch the ball.
+
 ## How to Build
 ### Don't.
   
@@ -16,8 +18,7 @@ But if you really want to, you'll need:
 - .NET 10 SDK
 - A local clone of Foster at `../Foster` relative to this project
 
-Just build and run  
-Controls: Left/Right arrow keys to move the paddle, Up to restart/launch the ball.
+Just build and run.
 
 ## How it looks like
 
